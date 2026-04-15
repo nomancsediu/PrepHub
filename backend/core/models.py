@@ -64,7 +64,8 @@ class Lesson(models.Model):
     order = models.IntegerField(default=0)
     
     # শুধু মার্কডাউন কন্টেন্ট এবং সামারি থাকবে
-    content = models.TextField(blank=True, help_text="Write your markdown content here")
+    content = models.TextField(blank=True, help_text="English content (HTML)")
+    content_bn = models.TextField(blank=True, help_text="Bangla content (HTML)")
     summary = models.TextField(blank=True)
     
     difficulty = models.CharField(max_length=10, choices=DIFFICULTY_CHOICES, default='Easy')

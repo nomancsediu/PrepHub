@@ -59,7 +59,7 @@ class LessonDetailSerializer(serializers.ModelSerializer):
         model = Lesson
         fields = [
             'id', 'title', 'slug', 'order', 'difficulty',
-            'content', 'summary',
+            'content', 'content_bn', 'summary',
             'topic_title', 'subject_title', 'subject_slug'
         ]
 

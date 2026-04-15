@@ -5,6 +5,7 @@ import { getLesson } from '../services/api';
 export default function LessonContent({ lesson, allLessons, onLessonSelect }) {
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [lang, setLang] = useState(() => localStorage.getItem('lesson_lang') || 'en');
 
   const currentIndex = allLessons.findIndex(l => l.slug === lesson.slug);
   const prevLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null;
@@ -18,6 +19,17 @@ export default function LessonContent({ lesson, allLessons, onLessonSelect }) {
       .finally(() => setLoading(false));
   }, [lesson.slug]);
 
+  const switchLang = (l) => {
+    setLang(l);
+    localStorage.setItem('lesson_lang', l);
+  };
+
+  const displayContent = lang === 'bn' && content?.content_bn
+    ? content.content_bn
+    : content?.content;
+
+  const hasBn = !!content?.content_bn;
+
   if (loading) return (
     <div className="flex-1 overflow-y-auto bg-white px-10 py-10 animate-pulse space-y-4">
       <div className="h-8 w-2/3 bg-gray-200 rounded" />
@@ -28,10 +40,30 @@ export default function LessonContent({ lesson, allLessons, onLessonSelect }) {
   return (
     <main className="flex-1 overflow-y-auto bg-white">
       <div className="px-4 sm:px-8 py-6">
-        {content?.content ? (
+
+        {/* Language Toggle */}
+        <div className="flex justify-end mb-4">
+          <div className="inline-flex rounded-lg border border-gray-200 overflow-hidden text-sm font-medium">
+            <button
+              onClick={() => switchLang('en')}
+              className={`px-3 py-1.5 transition-colors ${lang === 'en' ? 'bg-gray-900 text-white' : 'bg-white text-gray-500 hover:bg-gray-50'}`}
+            >
+              EN
+            </button>
+            <button
+              onClick={() => switchLang('bn')}
+              disabled={!hasBn}
+              className={`px-3 py-1.5 transition-colors ${lang === 'bn' ? 'bg-gray-900 text-white' : 'bg-white text-gray-500 hover:bg-gray-50'} disabled:opacity-30 disabled:cursor-not-allowed`}
+            >
+              বাং
+            </button>
+          </div>
+        </div>
+
+        {displayContent ? (
           <div
             className="prose prose-gray max-w-none"
-            dangerouslySetInnerHTML={{ __html: content.content }}
+            dangerouslySetInnerHTML={{ __html: displayContent }}
           />
         ) : (
           <div className="flex flex-col items-center justify-center py-20 text-center">

@@ -12,7 +12,7 @@ const TABS = ['Subjects', 'Topics', 'Lessons'];
 
 const emptySubject = { title: '', description: '', icon: 'fa-book' };
 const emptyTopic   = { title: '', subject: '', order: 0 };
-const emptyLesson  = { title: '', topic: '', order: 0, difficulty: 'Easy', summary: '', content: '' };
+const emptyLesson  = { title: '', topic: '', order: 0, difficulty: 'Easy', summary: '', content: '', content_bn: '' };
 
 function Modal({ title, onClose, children }) {
   return (
@@ -213,8 +213,12 @@ function LessonPage({ initial, topics, subjects, onSave, onClose }) {
             <textarea className={inp} rows={2} value={form.summary} onChange={e => set('summary', e.target.value)} />
           </Field>
 
-          <Field label="Content">
+          <Field label="Content (English)">
             <RichEditor value={form.content} onChange={v => set('content', v)} />
+          </Field>
+
+          <Field label="Content (বাংলা) — optional">
+            <RichEditor value={form.content_bn} onChange={v => set('content_bn', v)} />
           </Field>
 
         </div>

@@ -54,6 +54,9 @@ export default function LessonDetail() {
   const [lesson, setLesson] = useState(null);
   const [adjacent, setAdjacent] = useState({ previous: null, next: null });
   const [loading, setLoading] = useState(true);
+  const [lang, setLang] = useState(() => localStorage.getItem('lesson_lang') || 'en');
+
+  const switchLang = (l) => { setLang(l); localStorage.setItem('lesson_lang', l); };
 
   useEffect(() => {
     setLoading(true);
@@ -98,10 +101,26 @@ export default function LessonDetail() {
 
       <hr className="border-gray-200 mb-8" />
 
+      {/* Language Toggle */}
+      {lesson.content_bn && (
+        <div className="flex justify-end mb-4">
+          <div className="inline-flex rounded-lg border border-gray-200 overflow-hidden text-sm font-medium">
+            <button onClick={() => switchLang('en')}
+              className={`px-3 py-1.5 transition-colors ${lang === 'en' ? 'bg-gray-900 text-white' : 'bg-white text-gray-500 hover:bg-gray-50'}`}>
+              EN
+            </button>
+            <button onClick={() => switchLang('bn')}
+              className={`px-3 py-1.5 transition-colors ${lang === 'bn' ? 'bg-gray-900 text-white' : 'bg-white text-gray-500 hover:bg-gray-50'}`}>
+              বাং
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Content */}
       <div
         className="prose prose-gray max-w-none"
-        dangerouslySetInnerHTML={{ __html: lesson.content ?? '<p>No content available.</p>' }}
+        dangerouslySetInnerHTML={{ __html: (lang === 'bn' && lesson.content_bn ? lesson.content_bn : lesson.content) ?? '<p>No content available.</p>' }}
       />
 
       {/* Navigation */}
