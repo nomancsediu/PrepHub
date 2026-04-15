@@ -40,7 +40,7 @@ export default function AiAssistant({ lessonContext = '' }) {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-[60] flex flex-col items-end gap-2">
+    <div className="fixed bottom-4 right-4 z-[55] flex flex-col items-end gap-2">
 
       {/* Chat panel */}
       <div className={`flex flex-col bg-white border border-gray-200 shadow-xl overflow-hidden transition-all duration-300 ease-in-out rounded-xl
