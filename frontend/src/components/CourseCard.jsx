@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 
 function CardSkeleton() {
   return (
-    <div className="rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 animate-pulse">
-      <div className="h-52 bg-gray-300 dark:bg-gray-700" />
+    <div className="rounded-2xl overflow-hidden border border-gray-200 animate-pulse">
+      <div className="h-52 bg-gray-300" />
       <div className="p-7 space-y-4">
-        <div className="h-3 w-24 bg-gray-200 dark:bg-gray-600 rounded" />
-        <div className="h-6 w-3/4 bg-gray-200 dark:bg-gray-600 rounded" />
-        <div className="h-6 w-1/2 bg-gray-200 dark:bg-gray-600 rounded" />
-        <div className="h-11 w-36 bg-gray-200 dark:bg-gray-600 rounded-full mt-4" />
+        <div className="h-3 w-24 bg-gray-200 rounded" />
+        <div className="h-6 w-3/4 bg-gray-200 rounded" />
+        <div className="h-6 w-1/2 bg-gray-200 rounded" />
+        <div className="h-11 w-36 bg-gray-200 rounded-full mt-4" />
       </div>
     </div>
   );
@@ -44,7 +44,7 @@ export default function CourseCard({ subject }) {
       aria-label={`${subject.title} — ${moduleCount} modules`}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
-      className="rounded-lg bg-white dark:bg-gray-900 cursor-pointer outline-none overflow-hidden flex flex-col shadow-md focus-visible:ring-4 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+      className="rounded-lg bg-white cursor-pointer outline-none overflow-hidden flex flex-col shadow-md focus-visible:ring-4 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
     >
       {/* Header with SVG */}
       <div className="h-52 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
@@ -59,7 +59,7 @@ export default function CourseCard({ subject }) {
       </div>
 
       {/* Course title */}
-      <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 leading-snug line-clamp-2 min-h-[3.5rem]">
+      <h3 className="text-xl font-bold text-gray-900 leading-snug line-clamp-2 min-h-[3.5rem]">
         {subject.title}
       </h3>
 

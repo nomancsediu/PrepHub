@@ -19,7 +19,7 @@ export default function Home() {
       {error && (
         <div
           role="alert"
-          className="mb-8 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-sm text-center"
+          className="mb-8 p-4 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm text-center"
         >
           {error}
         </div>
@@ -27,7 +27,7 @@ export default function Home() {
 
       {!loading && (
         <div className="mb-6">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Courses ({subjects.length})</h2>
+          <h2 className="text-3xl font-bold text-gray-900">Courses ({subjects.length})</h2>
         </div>
       )}
 
@@ -45,7 +45,7 @@ export default function Home() {
       )}
 
       {!loading && !error && subjects.length === 0 && (
-        <p className="text-center text-gray-400 dark:text-gray-500 mt-20 text-sm">
+        <p className="text-center text-gray-400 mt-20 text-sm">
           No courses available yet.
         </p>
       )}
