@@ -1,14 +1,19 @@
 @import "tailwindcss";
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: light;
-  }
+html, body, #root, * {
+  color-scheme: light !important;
 }
 
-html, body {
-  background-color: white;
-  color: #111827;
+@media (prefers-color-scheme: dark) {
+  html, body, #root {
+    background-color: white !important;
+    color: #111827 !important;
+  }
+
+  input, textarea, select, button {
+    background-color: white !important;
+    color: #111827 !important;
+  }
 }
 
 * {
