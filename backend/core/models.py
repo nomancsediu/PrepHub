@@ -63,7 +63,6 @@ class Lesson(models.Model):
     slug = models.SlugField(max_length=220, unique=True, blank=True)
     order = models.IntegerField(default=0)
     
-    # শুধু মার্কডাউন কন্টেন্ট এবং সামারি থাকবে
     content = models.TextField(blank=True, help_text="English content (HTML)")
     content_bn = models.TextField(blank=True, help_text="Bangla content (HTML)")
     summary = models.TextField(blank=True)
