@@ -40,12 +40,12 @@ export default function AiAssistant({ lessonContext = '' }) {
   };
 
   return (
-    <div className="fixed top-20 right-4 z-[40] flex flex-col items-end gap-2">
+    <div className="fixed bottom-6 right-4 z-[40] flex flex-col items-end gap-2">
 
       {/* Chat panel */}
       <div className={`flex flex-col bg-white border border-gray-200 shadow-xl overflow-hidden transition-all duration-300 ease-in-out rounded-xl
         ${open ? 'opacity-100 translate-y-0 pointer-events-auto scale-100' : 'opacity-0 translate-y-3 pointer-events-none scale-95'}
-        fixed top-20 left-4 right-4 sm:left-auto sm:right-4 sm:w-[340px]
+        fixed bottom-24 left-4 right-4 sm:left-auto sm:right-4 sm:w-[340px]
         h-[calc(100svh-160px)] sm:h-[460px] max-h-[540px]`}
       >
         {/* Header */}
