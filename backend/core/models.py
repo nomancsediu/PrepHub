@@ -51,6 +51,17 @@ class Topic(models.Model):
         return f"{self.subject.title} > {self.title}"
 
 
+class SiteVisit(models.Model):
+    count = models.PositiveBigIntegerField(default=0)
+
+    @classmethod
+    def increment(cls):
+        obj, _ = cls.objects.get_or_create(id=1)
+        obj.count += 1
+        obj.save()
+        return obj.count
+
+
 class Lesson(models.Model):
     DIFFICULTY_CHOICES = [
         ('Easy', 'Easy'),
@@ -68,6 +79,7 @@ class Lesson(models.Model):
     summary = models.TextField(blank=True)
     
     difficulty = models.CharField(max_length=10, choices=DIFFICULTY_CHOICES, default='Easy')
+    likes = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ["order"]

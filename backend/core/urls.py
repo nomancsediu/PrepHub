@@ -13,7 +13,10 @@ urlpatterns = [
     path('lessons/search/', views.LessonSearchView.as_view(), name='lesson-search'),
     path('lessons/<slug:slug>/', views.LessonDetailView.as_view(), name='lesson-detail'),
     path('lessons/<slug:slug>/adjacent/', views.get_adjacent_lessons, name='lesson-adjacent'),
+    path('lessons/<slug:slug>/like/', views.toggle_like, name='lesson-like'),
     path('admin/login/', views.admin_login, name='admin-login'),
     path('ai/chat/', views.ai_chat, name='ai-chat'),
+    path('visits/track/', views.track_visit, name='visit-track'),
+    path('visits/count/', views.get_visit_count, name='visit-count'),
     path('', include(router.urls)),
 ]

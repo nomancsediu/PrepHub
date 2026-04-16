@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getLesson, getAdjacentLessons } from '../services/api';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { getLesson, getAdjacentLessons, toggleLike } from '../services/api';
+import { ArrowLeft, ArrowRight, Heart } from 'lucide-react';
 
 const DUMMY_LESSON = {
   title: 'Array Basics',
@@ -55,8 +55,22 @@ export default function LessonDetail() {
   const [adjacent, setAdjacent] = useState({ previous: null, next: null });
   const [loading, setLoading] = useState(true);
   const [lang, setLang] = useState(() => localStorage.getItem('lesson_lang') || 'en');
+  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState(0);
 
   const switchLang = (l) => { setLang(l); localStorage.setItem('lesson_lang', l); };
+
+  const handleLike = () => {
+    const action = liked ? 'unlike' : 'like';
+    const likedLessons = JSON.parse(localStorage.getItem('liked_lessons') || '{}');
+    toggleLike(slug, action).then(r => {
+      setLikes(r.data.likes);
+      setLiked(!liked);
+      if (!liked) likedLessons[slug] = true;
+      else delete likedLessons[slug];
+      localStorage.setItem('liked_lessons', JSON.stringify(likedLessons));
+    });
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -64,6 +78,9 @@ export default function LessonDetail() {
       .then(([lessonRes, adjRes]) => {
         setLesson(lessonRes.data);
         setAdjacent(adjRes.data);
+        setLikes(lessonRes.data.likes || 0);
+        const likedLessons = JSON.parse(localStorage.getItem('liked_lessons') || '{}');
+        setLiked(!!likedLessons[slug]);
       })
       .catch(() => {
         setLesson(DUMMY_LESSON);
@@ -101,9 +118,19 @@ export default function LessonDetail() {
 
       <hr className="border-gray-200 mb-8" />
 
-      {/* Language Toggle */}
-      {lesson.content_bn && (
-        <div className="flex justify-end mb-4">
+      {/* Language Toggle + Like */}
+      <div className="flex items-center justify-between mb-4">
+        <button
+            onClick={handleLike}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-all text-sm font-medium ${
+              liked ? 'border-red-300 bg-red-50 text-red-500' : 'border-gray-200 text-gray-400 hover:border-red-300 hover:text-red-400'
+            }`}
+          >
+            <Heart size={15} className={liked ? 'fill-red-500 text-red-500' : ''} />
+            <span>{likes}</span>
+          </button>
+
+        {lesson.content_bn ? (
           <div className="inline-flex rounded-lg border border-gray-200 overflow-hidden text-sm font-medium">
             <button onClick={() => switchLang('en')}
               className={`px-3 py-1.5 transition-colors ${lang === 'en' ? 'bg-gray-900 text-white' : 'bg-white text-gray-500 hover:bg-gray-50'}`}>
@@ -114,8 +141,8 @@ export default function LessonDetail() {
               বাং
             </button>
           </div>
-        </div>
-      )}
+        ) : <div />}
+      </div>
 
       {/* Content */}
       <div

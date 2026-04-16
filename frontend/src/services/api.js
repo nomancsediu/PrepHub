@@ -36,3 +36,6 @@ export const adminUpdateLesson = (id, d) => adminApi.put(`admin/lessons/${id}/`,
 export const adminDeleteLesson = (id) => adminApi.delete(`admin/lessons/${id}/`);
 export const aiChat = (message, context, history) =>
   api.post('ai/chat/', { message, context, history });
+export const toggleLike = (slug, action) => api.post(`lessons/${slug}/like/`, { action });
+
+export default api;

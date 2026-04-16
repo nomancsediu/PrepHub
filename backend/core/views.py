@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 import requests
 
-from .models import Subject, Topic, Lesson, AdminUser
+from .models import Subject, Topic, Lesson, AdminUser, SiteVisit
 from .serializers import (
     SubjectListSerializer, SubjectDetailSerializer,
     LessonListSerializer, LessonDetailSerializer,
@@ -77,6 +77,36 @@ Keep responses focused, clear and educational."""
         return Response({'error': 'AI service timed out'}, status=status.HTTP_504_GATEWAY_TIMEOUT)
     except Exception:
         return Response({'error': 'AI service error'}, status=status.HTTP_502_BAD_GATEWAY)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def toggle_like(request, slug):
+    try:
+        lesson = Lesson.objects.get(slug=slug)
+    except Lesson.DoesNotExist:
+        return Response({'error': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
+    action = request.data.get('action')
+    if action == 'like':
+        lesson.likes += 1
+    elif action == 'unlike' and lesson.likes > 0:
+        lesson.likes -= 1
+    lesson.save()
+    return Response({'likes': lesson.likes})
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def track_visit(request):
+    count = SiteVisit.increment()
+    return Response({'count': count})
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_visit_count(request):
+    obj, _ = SiteVisit.objects.get_or_create(id=1)
+    return Response({'count': obj.count})
 
 
 # ==========================================
