@@ -5,6 +5,7 @@ import {
   adminGetSubjects, adminCreateSubject, adminUpdateSubject, adminDeleteSubject,
   adminGetTopics, adminCreateTopic, adminUpdateTopic, adminDeleteTopic,
   adminGetLessons, adminCreateLesson, adminUpdateLesson, adminDeleteLesson,
+  translateContent,
 } from '../services/api';
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -141,7 +142,21 @@ function LessonPage({ initial, topics, subjects, onSave, onClose }) {
     return '';
   });
   const [saving, setSaving] = useState(false);
+  const [translating, setTranslating] = useState(false);
   const set = (k, v) => setForm(p => ({ ...p, [k]: v }));
+
+  const handleTranslate = async () => {
+    if (!form.content_bn) return alert('Please write Bangla content first.');
+    setTranslating(true);
+    try {
+      const res = await translateContent(form.content_bn);
+      set('content', res.data.content);
+    } catch {
+      alert('Translation failed. Try again.');
+    } finally {
+      setTranslating(false);
+    }
+  };
 
   const filteredTopics = selectedSubject
     ? topics.filter(t => String(t.subject) === selectedSubject)
@@ -219,6 +234,10 @@ function LessonPage({ initial, topics, subjects, onSave, onClose }) {
 
           <Field label="Content (বাংলা) — optional">
             <RichEditor value={form.content_bn} onChange={v => set('content_bn', v)} />
+            <button type="button" onClick={handleTranslate} disabled={translating}
+              className="mt-2 px-4 py-1.5 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 disabled:opacity-50">
+              {translating ? '⏳ Translating...' : '✨ Translate to English'}
+            </button>
           </Field>
 
         </div>

@@ -81,6 +81,40 @@ Keep responses focused, clear and educational."""
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
+def translate_content(request):
+    html_content = request.data.get('content', '').strip()
+    if not html_content:
+        return Response({'error': 'Content is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    api_key = settings.GROQ_API_KEY
+    if not api_key:
+        return Response({'error': 'AI service not configured'}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+
+    try:
+        res = requests.post(
+            'https://api.groq.com/openai/v1/chat/completions',
+            headers={'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json'},
+            json={
+                'model': 'llama-3.3-70b-versatile',
+                'messages': [
+                    {"role": "system", "content": "You are a translator. Translate the given Bangla HTML content to English. Keep all HTML tags intact, only translate the text content. Return only the translated HTML, nothing else."},
+                    {"role": "user", "content": html_content}
+                ],
+                'max_tokens': 4096
+            },
+            timeout=60
+        )
+        res.raise_for_status()
+        translated = res.json()['choices'][0]['message']['content']
+        return Response({'content': translated})
+    except requests.exceptions.Timeout:
+        return Response({'error': 'AI service timed out'}, status=status.HTTP_504_GATEWAY_TIMEOUT)
+    except Exception:
+        return Response({'error': 'AI service error'}, status=status.HTTP_502_BAD_GATEWAY)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
 def toggle_like(request, slug):
     try:
         lesson = Lesson.objects.get(slug=slug)

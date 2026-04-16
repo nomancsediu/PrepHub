@@ -16,6 +16,7 @@ urlpatterns = [
     path('lessons/<slug:slug>/like/', views.toggle_like, name='lesson-like'),
     path('admin/login/', views.admin_login, name='admin-login'),
     path('ai/chat/', views.ai_chat, name='ai-chat'),
+    path('ai/translate/', views.translate_content, name='ai-translate'),
     path('visits/track/', views.track_visit, name='visit-track'),
     path('visits/count/', views.get_visit_count, name='visit-count'),
     path('', include(router.urls)),
