@@ -232,13 +232,16 @@ function LessonPage({ initial, topics, subjects, onSave, onClose }) {
             <RichEditor value={form.content} onChange={v => set('content', v)} />
           </Field>
 
-          <Field label="Content (বাংলা) — optional">
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label className="text-sm font-medium text-gray-700">Content (বাংলা) — optional</label>
+              <button type="button" onClick={handleTranslate} disabled={translating}
+                className="px-3 py-1 bg-purple-600 text-white text-xs font-medium rounded-lg hover:bg-purple-700 disabled:opacity-50">
+                {translating ? '⏳ Translating...' : '✨ Translate to English'}
+              </button>
+            </div>
             <RichEditor value={form.content_bn} onChange={v => set('content_bn', v)} />
-            <button type="button" onClick={handleTranslate} disabled={translating}
-              className="mt-2 px-4 py-1.5 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 disabled:opacity-50">
-              {translating ? '⏳ Translating...' : '✨ Translate to English'}
-            </button>
-          </Field>
+          </div>
 
         </div>
       </form>
