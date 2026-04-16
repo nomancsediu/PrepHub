@@ -7,7 +7,7 @@ import { Table, TableRow, TableCell, TableHeader } from '@tiptap/extension-table
 import Placeholder from '@tiptap/extension-placeholder';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { createLowlight, common } from 'lowlight';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const lowlight = createLowlight(common);
 
@@ -28,7 +28,7 @@ export default function RichEditor({ value, onChange }) {
 
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({ codeBlock: false }),
+      StarterKit.configure({ codeBlock: false, link: false }),
       CodeBlockLowlight.configure({ lowlight }),
       Image.configure({ inline: false }),
       Link.configure({ openOnClick: false }),
@@ -40,6 +40,14 @@ export default function RichEditor({ value, onChange }) {
     content: value || '',
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
   });
+
+  useEffect(() => {
+    if (!editor) return;
+    const current = editor.getHTML();
+    if (value !== current) {
+      editor.commands.setContent(value || '');
+    }
+  }, [value, editor]);
 
   if (!editor) return null;
 
