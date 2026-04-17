@@ -29,19 +29,21 @@ export default function Navbar() {
           <BookOpen size={24} className="text-blue-400" aria-hidden="true" />
           PrepHub
         </Link>
-        {visits && (
-          <div className="flex items-center gap-1.5 text-gray-400 text-sm">
-            <Eye size={15} />
-            <span>{visits.toLocaleString()}</span>
-          </div>
-        )}
-        <button
-          onClick={toggle}
-          className="ml-3 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
-          aria-label="Toggle dark mode"
-        >
-          {dark ? <Sun size={18} /> : <Moon size={18} />}
-        </button>
+        <div className="flex items-center gap-3">
+          {visits && (
+            <div className="flex items-center gap-1.5 text-gray-400 text-sm">
+              <Eye size={15} />
+              <span>{visits.toLocaleString()}</span>
+            </div>
+          )}
+          <button
+            onClick={toggle}
+            className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
+            aria-label="Toggle dark mode"
+          >
+            {dark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+        </div>
       </div>
     </nav>
   );

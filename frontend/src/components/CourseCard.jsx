@@ -47,7 +47,7 @@ export default function CourseCard({ subject }) {
       className="rounded-lg bg-white dark:bg-gray-800 cursor-pointer outline-none overflow-hidden flex flex-col shadow-md focus-visible:ring-4 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
     >
       {/* Header with SVG */}
-      <div className="h-52 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
+      <div className="h-52 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 dark:from-slate-800 dark:via-blue-950 dark:to-slate-800 flex items-center justify-center">
         <BookOpen size={72} strokeWidth={1.2} className="text-blue-400 drop-shadow-[0_0_12px_rgba(96,165,250,0.7)]" aria-hidden="true" />
       </div>
 
