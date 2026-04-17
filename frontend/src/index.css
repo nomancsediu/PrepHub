@@ -106,3 +106,20 @@
 .dark .prose th { background: #1e293b; color: #94a3b8; }
 .dark .prose tr:nth-child(even) td { background: #1e293b; }
 .dark .prose a { color: #60a5fa; }
+
+/* Code block copy button */
+.copy-btn {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  padding: 0.3rem 0.5rem;
+  background: #1e293b;
+  color: #94a3b8;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s, background 0.2s;
+}
+.copy-btn:hover { background: #334155; color: #e2e8f0; }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight, Heart } from 'lucide-react';
 import { getLesson, toggleLike } from '../services/api';
+import useCopyCode from '../hooks/useCopyCode';
 
 export default function LessonContent({ lesson, allLessons, onLessonSelect }) {
   const [content, setContent] = useState(null);
@@ -48,6 +49,7 @@ export default function LessonContent({ lesson, allLessons, onLessonSelect }) {
     : content?.content;
 
   const hasBn = !!content?.content_bn;
+  useCopyCode(displayContent);
 
   if (loading) return (
     <div className="flex-1 overflow-y-auto bg-white dark:bg-gray-900 px-10 py-10 animate-pulse space-y-4">

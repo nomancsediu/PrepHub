@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getLesson, getAdjacentLessons, toggleLike } from '../services/api';
 import { ArrowLeft, ArrowRight, Heart } from 'lucide-react';
+import useCopyCode from '../hooks/useCopyCode';
 
 const DUMMY_LESSON = {
   title: 'Array Basics',
@@ -57,6 +58,7 @@ export default function LessonDetail() {
   const [lang, setLang] = useState(() => localStorage.getItem('lesson_lang') || 'en');
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(0);
+  useCopyCode(lesson);
 
   const switchLang = (l) => { setLang(l); localStorage.setItem('lesson_lang', l); };
 
