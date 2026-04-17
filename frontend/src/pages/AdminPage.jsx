@@ -364,6 +364,10 @@ export default function AdminPage() {
                       <td className="px-4 py-3 text-gray-400">{s.icon}</td>
                       <td className="px-4 py-3 text-gray-500 max-w-xs truncate">{s.description}</td>
                       <td className="px-4 py-3 flex gap-2 justify-end">
+                        <button onClick={() => adminUpdateSubject(s.id, { ...s, is_published: !s.is_published }).then(load)}
+                          className={btn(s.is_published ? 'bg-green-500' : 'bg-gray-400')}>
+                          {s.is_published ? 'Published' : 'Draft'}
+                        </button>
                         <button onClick={() => setModal({ type: 'subject', item: s })} className={btn('bg-yellow-500')}>Edit</button>
                         <button onClick={() => del('subject', s.id)} className={btn('bg-red-500')}>Delete</button>
                       </td>

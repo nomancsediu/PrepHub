@@ -29,6 +29,7 @@ class Subject(models.Model):
     slug = models.SlugField(max_length=140, unique=True, blank=True)
     description = models.TextField(blank=True)
     icon = models.CharField(max_length=80, default="fa-book")
+    is_published = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:

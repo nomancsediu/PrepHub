@@ -152,7 +152,7 @@ class SubjectListView(generics.ListAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        return Subject.objects.prefetch_related('topics__lessons').annotate(
+        return Subject.objects.filter(is_published=True).prefetch_related('topics__lessons').annotate(
             lesson_count=Count('topics__lessons')
         )
 
@@ -163,7 +163,7 @@ class SubjectDetailView(generics.RetrieveAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        return Subject.objects.prefetch_related('topics__lessons').annotate(
+        return Subject.objects.filter(is_published=True).prefetch_related('topics__lessons').annotate(
             lesson_count=Count('topics__lessons')
         )
 
