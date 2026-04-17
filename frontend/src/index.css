@@ -106,12 +106,16 @@
 .dark .prose th { background: #1e293b; color: #94a3b8; }
 .dark .prose tr:nth-child(even) td { background: #1e293b; }
 .dark .prose a { color: #60a5fa; }
+.dark .prose .table-wrapper { border-color: #334155; }
 
 /* Code block copy button */
 .copy-btn {
-  position: absolute;
+  position: sticky;
+  float: right;
   top: 0.6rem;
-  right: 0.6rem;
+  margin-top: -2rem;
+  margin-right: 0.4rem;
+  margin-bottom: 0.5rem;
   padding: 0.3rem 0.5rem;
   background: #1e293b;
   color: #94a3b8;
@@ -120,6 +124,11 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  z-index: 10;
   transition: color 0.2s, background 0.2s;
 }
 .copy-btn:hover { background: #334155; color: #e2e8f0; }
+
+/* Mobile responsive table */
+.prose .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1.2rem 0; border-radius: 8px; border: 1px solid #e2e8f0; }
+.prose .table-wrapper table { margin: 0; border: none; border-radius: 0; }

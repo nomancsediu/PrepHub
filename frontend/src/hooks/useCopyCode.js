@@ -2,11 +2,10 @@ import { useEffect } from 'react';
 
 export default function useCopyCode(dep) {
   useEffect(() => {
+    // Copy button for code blocks
     const blocks = document.querySelectorAll('.prose pre');
     blocks.forEach((pre) => {
       if (pre.querySelector('.copy-btn')) return;
-
-      pre.style.position = 'relative';
 
       const btn = document.createElement('button');
       btn.className = 'copy-btn';
@@ -24,7 +23,17 @@ export default function useCopyCode(dep) {
         });
       });
 
-      pre.appendChild(btn);
+      pre.insertBefore(btn, pre.firstChild);
+    });
+
+    // Wrap tables for mobile scroll
+    const tables = document.querySelectorAll('.prose table');
+    tables.forEach((table) => {
+      if (table.parentElement?.classList.contains('table-wrapper')) return;
+      const wrapper = document.createElement('div');
+      wrapper.className = 'table-wrapper';
+      table.parentNode.insertBefore(wrapper, table);
+      wrapper.appendChild(table);
     });
   }, [dep]);
 }
