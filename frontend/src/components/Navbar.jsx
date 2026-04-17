@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
-import { BookOpen, Eye } from 'lucide-react';
+import { BookOpen, Eye, Sun, Moon } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import api from '../services/api';
+import { useTheme } from '../context/ThemeContext';
 
 export default function Navbar() {
   const [visits, setVisits] = useState(null);
+  const { dark, toggle } = useTheme();
 
   useEffect(() => {
     if (!sessionStorage.getItem('visited')) {
@@ -33,6 +35,13 @@ export default function Navbar() {
             <span>{visits.toLocaleString()}</span>
           </div>
         )}
+        <button
+          onClick={toggle}
+          className="ml-3 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
+          aria-label="Toggle dark mode"
+        >
+          {dark ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
       </div>
     </nav>
   );

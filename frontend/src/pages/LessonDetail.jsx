@@ -91,9 +91,9 @@ export default function LessonDetail() {
 
   if (loading) return (
     <div className="max-w-3xl mx-auto px-8 py-10 animate-pulse space-y-4">
-      <div className="h-8 w-2/3 bg-gray-200 rounded" />
-      <div className="h-4 w-24 bg-gray-100 rounded" />
-      {[1,2,3,4,5].map(i => <div key={i} className="h-4 bg-gray-100 rounded" />)}
+      <div className="h-8 w-2/3 bg-gray-200 dark:bg-gray-700 rounded" />
+      <div className="h-4 w-24 bg-gray-100 dark:bg-gray-800 rounded" />
+      {[1,2,3,4,5].map(i => <div key={i} className="h-4 bg-gray-100 dark:bg-gray-800 rounded" />)}
     </div>
   );
 
@@ -110,20 +110,20 @@ export default function LessonDetail() {
             {lesson.difficulty}
           </span>
         </div>
-        <h1 className="text-3xl font-bold text-gray-900">{lesson.title}</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{lesson.title}</h1>
         {lesson.summary && (
-          <p className="mt-3 text-gray-500 text-base leading-relaxed">{lesson.summary}</p>
+          <p className="mt-3 text-gray-500 dark:text-gray-400 text-base leading-relaxed">{lesson.summary}</p>
         )}
       </div>
 
-      <hr className="border-gray-200 mb-8" />
+      <hr className="border-gray-200 dark:border-gray-700 mb-8" />
 
       {/* Language Toggle + Like */}
       <div className="flex items-center justify-between mb-4">
         <button
             onClick={handleLike}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-all text-sm font-medium ${
-              liked ? 'border-red-300 bg-red-50 text-red-500' : 'border-gray-200 text-gray-400 hover:border-red-300 hover:text-red-400'
+              liked ? 'border-red-300 bg-red-50 text-red-500' : 'border-gray-200 dark:border-gray-700 text-gray-400 hover:border-red-300 hover:text-red-400'
             }`}
           >
             <Heart size={15} className={liked ? 'fill-red-500 text-red-500' : ''} />
@@ -131,13 +131,13 @@ export default function LessonDetail() {
           </button>
 
         {lesson.content_bn ? (
-          <div className="inline-flex rounded-lg border border-gray-200 overflow-hidden text-sm font-medium">
+          <div className="inline-flex rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden text-sm font-medium">
             <button onClick={() => switchLang('en')}
-              className={`px-3 py-1.5 transition-colors ${lang === 'en' ? 'bg-gray-900 text-white' : 'bg-white text-gray-500 hover:bg-gray-50'}`}>
+              className={`px-3 py-1.5 transition-colors ${lang === 'en' ? 'bg-gray-900 text-white' : 'bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'}`}>
               EN
             </button>
             <button onClick={() => switchLang('bn')}
-              className={`px-3 py-1.5 transition-colors ${lang === 'bn' ? 'bg-gray-900 text-white' : 'bg-white text-gray-500 hover:bg-gray-50'}`}>
+              className={`px-3 py-1.5 transition-colors ${lang === 'bn' ? 'bg-gray-900 text-white' : 'bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'}`}>
               বাং
             </button>
           </div>
@@ -155,7 +155,7 @@ export default function LessonDetail() {
         {adjacent.previous ? (
           <button
             onClick={() => navigate(`/lessons/${adjacent.previous.slug}`)}
-            className="flex-1 flex items-center gap-2 px-4 py-3 rounded-lg border-2 border-gray-200 text-sm font-medium text-gray-700 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 transition-all min-w-0"
+            className="flex-1 flex items-center gap-2 px-4 py-3 rounded-lg border-2 border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all min-w-0"
           >
             <ArrowLeft size={16} className="shrink-0 text-gray-400" />
             <div className="min-w-0 text-left">
@@ -168,7 +168,7 @@ export default function LessonDetail() {
         {adjacent.next && (
           <button
             onClick={() => navigate(`/lessons/${adjacent.next.slug}`)}
-            className="flex-1 flex items-center justify-between gap-2 px-4 py-3 rounded-lg border-2 border-gray-200 text-sm font-medium text-gray-700 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 transition-all min-w-0"
+            className="flex-1 flex items-center justify-between gap-2 px-4 py-3 rounded-lg border-2 border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all min-w-0"
           >
             <div className="min-w-0 text-right flex-1">
               <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest">Next</span>

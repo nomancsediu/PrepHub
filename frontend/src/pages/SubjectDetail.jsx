@@ -76,10 +76,10 @@ export default function SubjectDetail() {
 
   if (loading) return (
     <div className="flex h-full animate-pulse">
-      <div className="hidden lg:block w-64 shrink-0 h-full bg-gray-100 border-r border-gray-200" />
+      <div className="hidden lg:block w-64 shrink-0 h-full bg-gray-100 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700" />
       <div className="flex-1 p-6 sm:p-10 space-y-4">
-        <div className="h-10 w-2/3 bg-gray-100 rounded" />
-        {[1,2,3,4].map(i => <div key={i} className="h-16 bg-gray-100 rounded-xl" />)}
+        <div className="h-10 w-2/3 bg-gray-100 dark:bg-gray-800 rounded" />
+        {[1,2,3,4].map(i => <div key={i} className="h-16 bg-gray-100 dark:bg-gray-800 rounded-xl" />)}
       </div>
     </div>
   );
@@ -92,19 +92,19 @@ export default function SubjectDetail() {
       {/* Header */}
       <div className="pt-6 pb-4 px-4 sm:px-6 flex items-center gap-3">
         <button
-          className="lg:hidden flex flex-col justify-center items-center w-9 h-9 gap-1.5 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors"
+          className="lg:hidden flex flex-col justify-center items-center w-9 h-9 gap-1.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           onClick={() => setSidebarOpen(!sidebarOpen)}
           aria-label="Toggle topics"
         >
-          <span className={`block h-0.5 w-5 bg-gray-700 rounded-full transition-all duration-300 origin-center ${sidebarOpen ? 'rotate-45 translate-y-2' : ''}`} />
-          <span className={`block h-0.5 w-5 bg-gray-700 rounded-full transition-all duration-300 ${sidebarOpen ? 'opacity-0 scale-x-0' : ''}`} />
-          <span className={`block h-0.5 w-5 bg-gray-700 rounded-full transition-all duration-300 origin-center ${sidebarOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+          <span className={`block h-0.5 w-5 bg-gray-700 dark:bg-gray-300 rounded-full transition-all duration-300 origin-center ${sidebarOpen ? 'rotate-45 translate-y-2' : ''}`} />
+          <span className={`block h-0.5 w-5 bg-gray-700 dark:bg-gray-300 rounded-full transition-all duration-300 ${sidebarOpen ? 'opacity-0 scale-x-0' : ''}`} />
+          <span className={`block h-0.5 w-5 bg-gray-700 dark:bg-gray-300 rounded-full transition-all duration-300 origin-center ${sidebarOpen ? '-rotate-45 -translate-y-2' : ''}`} />
         </button>
         <div className="min-w-0">
-          <h2 className="text-lg sm:text-xl font-bold text-gray-900 truncate">{subject?.title}</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100 truncate">{subject?.title}</h2>
         </div>
       </div>
-      <div className="border-b border-gray-200" />
+      <div className="border-b border-gray-200 dark:border-gray-700" />
 
       {/* Mobile drawer — backdrop */}
       {sidebarOpen && (
@@ -115,9 +115,9 @@ export default function SubjectDetail() {
       )}
 
       {/* Mobile drawer — panel */}
-      <div className={`fixed top-0 left-0 h-full w-72 bg-white shadow-2xl flex flex-col z-50 lg:hidden transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
-          <span className="text-sm font-semibold text-gray-700">Topics</span>
+      <div className={`fixed top-0 left-0 h-full w-72 bg-white dark:bg-gray-900 shadow-2xl flex flex-col z-50 lg:hidden transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 dark:border-gray-700">
+          <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Topics</span>
           <button
             onClick={() => setSidebarOpen(false)}
             className="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors"

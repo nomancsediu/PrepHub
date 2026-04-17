@@ -11,7 +11,7 @@ export default function Sidebar({ topics, activeTopic, onTopicSelect, activeLess
   };
 
   return (
-    <aside className="w-64 shrink-0 h-full bg-white flex flex-col overflow-y-auto border-r border-gray-200 py-4 px-3">
+    <aside className="w-64 shrink-0 h-full bg-white dark:bg-gray-900 flex flex-col overflow-y-auto border-r border-gray-200 dark:border-gray-700 py-4 px-3">
       <nav className="flex flex-col gap-1">
         {topics.map((topic) => {
           const isActive = effectiveActive?.id === topic.id;
@@ -24,12 +24,12 @@ export default function Sidebar({ topics, activeTopic, onTopicSelect, activeLess
                 onClick={() => handleTopicClick(topic)}
                 className={[
                   'flex items-center justify-between px-4 py-2 w-full rounded-lg text-left transition-colors cursor-pointer',
-                  isActive ? 'bg-white border border-blue-100 shadow-sm' : 'hover:bg-gray-50 border border-transparent',
+                  isActive ? 'bg-white dark:bg-gray-800 border border-blue-100 dark:border-blue-900 shadow-sm' : 'hover:bg-gray-50 dark:hover:bg-gray-800 border border-transparent',
                 ].join(' ')}
               >
                 <span className={[
                   'text-[14px] font-medium leading-tight max-w-[85%]',
-                  isActive ? 'text-blue-600 font-bold text-[15px]' : 'text-gray-500',
+                  isActive ? 'text-blue-600 font-bold text-[15px]' : 'text-gray-500 dark:text-gray-400',
                 ].join(' ')}>
                   {topic.title}
                 </span>
@@ -52,7 +52,7 @@ export default function Sidebar({ topics, activeTopic, onTopicSelect, activeLess
                         onClick={() => onLessonSelect(lesson)}
                         className={[
                           'w-full text-left px-3 py-2 rounded-lg text-[13px] transition-colors',
-                          isLessonActive ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-gray-500 hover:bg-gray-50',
+                          isLessonActive ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 font-semibold' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800',
                         ].join(' ')}
                       >
                         {lesson.title}

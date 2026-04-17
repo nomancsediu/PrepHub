@@ -27,7 +27,7 @@ export default function Home() {
 
       {!loading && (
         <div className="mb-6">
-          <h2 className="text-3xl font-bold text-gray-900">Courses ({subjects.length})</h2>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Courses ({subjects.length})</h2>
         </div>
       )}
 

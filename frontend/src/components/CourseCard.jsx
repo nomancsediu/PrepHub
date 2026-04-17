@@ -44,7 +44,7 @@ export default function CourseCard({ subject }) {
       aria-label={`${subject.title} — ${moduleCount} modules`}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
-      className="rounded-lg bg-white cursor-pointer outline-none overflow-hidden flex flex-col shadow-md focus-visible:ring-4 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+      className="rounded-lg bg-white dark:bg-gray-800 cursor-pointer outline-none overflow-hidden flex flex-col shadow-md focus-visible:ring-4 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
     >
       {/* Header with SVG */}
       <div className="h-52 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
@@ -59,7 +59,7 @@ export default function CourseCard({ subject }) {
       </div>
 
       {/* Course title */}
-      <h3 className="text-xl font-bold text-gray-900 leading-snug line-clamp-2 min-h-[3.5rem]">
+      <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 leading-snug line-clamp-2 min-h-[3.5rem]">
         {subject.title}
       </h3>
 

@@ -1,7 +1,12 @@
 @import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
 
 :root {
   color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
 }
 
 * {
@@ -85,3 +90,15 @@
 .prose th { background: #f8fafc; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #475569; padding: 0.7rem 1rem; border: 1px solid #e2e8f0; text-align: left; }
 .prose td { padding: 0.65rem 1rem; border: 1px solid #e2e8f0; color: #374151; }
 .prose tr:nth-child(even) td { background: #f8fafc; }
+
+/* Dark mode prose overrides */
+.dark .prose h1, .dark .prose h2 { color: #f1f5f9; border-color: #334155; }
+.dark .prose h3 { color: #e2e8f0; }
+.dark .prose p, .dark .prose ul, .dark .prose ol, .dark .prose li, .dark .prose td { color: #cbd5e1; }
+.dark .prose code { background: #1e293b; color: #f87171; border-color: #334155; }
+.dark .prose blockquote { background: #1e3a5f; color: #93c5fd; border-color: #3b82f6; }
+.dark .prose hr { border-color: #334155; }
+.dark .prose table, .dark .prose th, .dark .prose td { border-color: #334155; }
+.dark .prose th { background: #1e293b; color: #94a3b8; }
+.dark .prose tr:nth-child(even) td { background: #1e293b; }
+.dark .prose a { color: #60a5fa; }
