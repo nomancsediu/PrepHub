@@ -103,9 +103,9 @@ export default function LessonDetail() {
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <span className={`text-xs font-semibold px-2.5 py-1 rounded ${
-            lesson.difficulty === 'Easy' ? 'bg-green-100 text-green-700' :
-            lesson.difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-700' :
-            'bg-red-100 text-red-700'
+            lesson.difficulty === 'Easy' ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400' :
+            lesson.difficulty === 'Medium' ? 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-400' :
+            'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400'
           }`}>
             {lesson.difficulty}
           </span>

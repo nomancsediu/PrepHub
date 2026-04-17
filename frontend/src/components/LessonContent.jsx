@@ -51,8 +51,8 @@ export default function LessonContent({ lesson, allLessons, onLessonSelect }) {
 
   if (loading) return (
     <div className="flex-1 overflow-y-auto bg-white dark:bg-gray-900 px-10 py-10 animate-pulse space-y-4">
-      <div className="h-8 w-2/3 bg-gray-200 rounded" />
-      {[1,2,3,4].map(i => <div key={i} className="h-4 bg-gray-100 rounded" />)}
+      <div className="h-8 w-2/3 bg-gray-200 dark:bg-gray-700 rounded" />
+      {[1,2,3,4].map(i => <div key={i} className="h-4 bg-gray-100 dark:bg-gray-800 rounded" />)}
     </div>
   );
 
