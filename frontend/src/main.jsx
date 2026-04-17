@@ -4,7 +4,8 @@ import './index.css'
 import App from './App.jsx'
 
 const saved = localStorage.getItem('theme');
-if (saved === 'dark') document.documentElement.classList.add('dark');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+if (saved === 'dark' || (!saved && prefersDark)) document.documentElement.classList.add('dark');
 else document.documentElement.classList.remove('dark');
 
 createRoot(document.getElementById('root')).render(

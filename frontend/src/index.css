@@ -95,7 +95,11 @@
 .dark .prose h1, .dark .prose h2 { color: #f1f5f9; border-color: #334155; }
 .dark .prose h3 { color: #e2e8f0; }
 .dark .prose p, .dark .prose ul, .dark .prose ol, .dark .prose li, .dark .prose td { color: #cbd5e1; }
-.dark .prose code { background: #1e293b; color: #f87171; border-color: #334155; }
+.dark .prose strong { color: #f1f5f9; }
+.dark .prose em { color: #cbd5e1; }
+.dark .prose code { background: #1e293b; color: #e879f9; border-color: #334155; }
+.dark .prose pre { background: #0f172a; border-color: #1e293b; }
+.dark .prose pre code { color: #e2e8f0; background: none; border: none; }
 .dark .prose blockquote { background: #1e3a5f; color: #93c5fd; border-color: #3b82f6; }
 .dark .prose hr { border-color: #334155; }
 .dark .prose table, .dark .prose th, .dark .prose td { border-color: #334155; }
