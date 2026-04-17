@@ -110,12 +110,9 @@
 
 /* Code block copy button */
 .copy-btn {
-  position: sticky;
-  float: right;
+  position: absolute;
   top: 0.6rem;
-  margin-top: -2rem;
-  margin-right: 0.4rem;
-  margin-bottom: 0.5rem;
+  right: 0.6rem;
   padding: 0.3rem 0.5rem;
   background: #1e293b;
   color: #94a3b8;
@@ -128,6 +125,7 @@
   transition: color 0.2s, background 0.2s;
 }
 .copy-btn:hover { background: #334155; color: #e2e8f0; }
+.prose pre { position: relative; }
 
 /* Mobile responsive table */
 .prose .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1.2rem 0; border-radius: 8px; border: 1px solid #e2e8f0; }
