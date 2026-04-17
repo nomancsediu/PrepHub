@@ -130,3 +130,17 @@
 /* Mobile responsive table */
 .prose .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1.2rem 0; border-radius: 8px; border: 1px solid #e2e8f0; }
 .prose .table-wrapper table { margin: 0; border: none; border-radius: 0; }
+
+/* Dark mode ProseMirror editor */
+.dark .ProseMirror h1, .dark .ProseMirror h2 { color: #f1f5f9; border-color: #334155; }
+.dark .ProseMirror h3 { color: #e2e8f0; }
+.dark .ProseMirror p, .dark .ProseMirror li { color: #cbd5e1; }
+.dark .ProseMirror strong { color: #f1f5f9; }
+.dark .ProseMirror code { background: #1e293b; color: #e879f9; border-color: #334155; }
+.dark .ProseMirror blockquote { background: #1e3a5f; color: #93c5fd; border-color: #3b82f6; }
+.dark .ProseMirror hr { border-color: #334155; }
+.dark .ProseMirror table { border-color: #334155; }
+.dark .ProseMirror th { background: #1e293b; color: #94a3b8; border-color: #334155; }
+.dark .ProseMirror td { color: #cbd5e1; border-color: #334155; }
+.dark .ProseMirror tr:nth-child(even) td { background: #1e293b; }
+.dark .ProseMirror a { color: #60a5fa; }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import RichEditor from '../components/RichEditor';
+import { useTheme } from '../context/ThemeContext';
 import {
   adminLogin,
   adminGetSubjects, adminCreateSubject, adminUpdateSubject, adminDeleteSubject,
@@ -8,20 +9,21 @@ import {
   translateContent,
 } from '../services/api';
 
-// ── helpers ──────────────────────────────────────────────────────────────────
 const TABS = ['Subjects', 'Topics', 'Lessons'];
-
 const emptySubject = { title: '', description: '', icon: 'fa-book' };
 const emptyTopic   = { title: '', subject: '', order: 0 };
 const emptyLesson  = { title: '', topic: '', order: 0, difficulty: 'Easy', summary: '', content: '', content_bn: '' };
 
+const inp = "w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500";
+const btn = (color) => `px-3 py-1.5 rounded-lg text-sm font-medium text-white ${color} transition-colors`;
+
 function Modal({ title, onClose, children }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6 border border-gray-200 dark:border-gray-700">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold">{title}</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl">✕</button>
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">{title}</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl">✕</button>
         </div>
         {children}
       </div>
@@ -32,16 +34,12 @@ function Modal({ title, onClose, children }) {
 function Field({ label, children }) {
   return (
     <div className="mb-4">
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{label}</label>
       {children}
     </div>
   );
 }
 
-const inp = "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500";
-const btn = (color) => `px-3 py-1.5 rounded-lg text-sm font-medium text-white ${color}`;
-
-// ── Login ─────────────────────────────────────────────────────────────────────
 function LoginForm({ onLogin }) {
   const [form, setForm] = useState({ username: '', password: '' });
   const [err, setErr] = useState('');
@@ -58,9 +56,9 @@ function LoginForm({ onLogin }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <form onSubmit={submit} className="bg-white p-8 rounded-xl shadow w-80 space-y-4">
-        <h1 className="text-xl font-bold text-center">Admin Login</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+      <form onSubmit={submit} className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-8 rounded-xl shadow w-80 space-y-4">
+        <h1 className="text-xl font-bold text-center text-gray-900 dark:text-gray-100">Admin Login</h1>
         {err && <p className="text-red-500 text-sm text-center">{err}</p>}
         <input className={inp} placeholder="Username" value={form.username}
           onChange={e => setForm(p => ({ ...p, username: e.target.value }))} />
@@ -74,17 +72,13 @@ function LoginForm({ onLogin }) {
   );
 }
 
-// ── Subject Form ──────────────────────────────────────────────────────────────
 function SubjectForm({ initial, onSave, onClose }) {
   const [form, setForm] = useState(initial || emptySubject);
   const set = (k, v) => setForm(p => ({ ...p, [k]: v }));
 
   const submit = async (e) => {
     e.preventDefault();
-    try {
-      await onSave(form);
-      onClose();
-    } catch { /* error shown by parent */ }
+    try { await onSave(form); onClose(); } catch {}
   };
 
   return (
@@ -93,24 +87,20 @@ function SubjectForm({ initial, onSave, onClose }) {
       <Field label="Description"><textarea className={inp} rows={3} value={form.description} onChange={e => set('description', e.target.value)} /></Field>
       <Field label="Icon"><input className={inp} value={form.icon} onChange={e => set('icon', e.target.value)} /></Field>
       <div className="flex justify-end gap-2 mt-2">
-        <button type="button" onClick={onClose} className={btn('bg-gray-400')}>Cancel</button>
-        <button type="submit" className={btn('bg-blue-600')}>Save</button>
+        <button type="button" onClick={onClose} className={btn('bg-gray-400 hover:bg-gray-500')}>Cancel</button>
+        <button type="submit" className={btn('bg-blue-600 hover:bg-blue-700')}>Save</button>
       </div>
     </form>
   );
 }
 
-// ── Topic Form ────────────────────────────────────────────────────────────────
 function TopicForm({ initial, subjects, onSave, onClose }) {
   const [form, setForm] = useState(initial || emptyTopic);
   const set = (k, v) => setForm(p => ({ ...p, [k]: v }));
 
   const submit = async (e) => {
     e.preventDefault();
-    try {
-      await onSave(form);
-      onClose();
-    } catch { /* error shown by parent */ }
+    try { await onSave(form); onClose(); } catch {}
   };
 
   return (
@@ -124,14 +114,13 @@ function TopicForm({ initial, subjects, onSave, onClose }) {
       <Field label="Title"><input className={inp} value={form.title} onChange={e => set('title', e.target.value)} required /></Field>
       <Field label="Order"><input className={inp} type="number" value={form.order} onChange={e => set('order', +e.target.value)} /></Field>
       <div className="flex justify-end gap-2 mt-2">
-        <button type="button" onClick={onClose} className={btn('bg-gray-400')}>Cancel</button>
-        <button type="submit" className={btn('bg-blue-600')}>Save</button>
+        <button type="button" onClick={onClose} className={btn('bg-gray-400 hover:bg-gray-500')}>Cancel</button>
+        <button type="submit" className={btn('bg-blue-600 hover:bg-blue-700')}>Save</button>
       </div>
     </form>
   );
 }
 
-// ── Lesson Full Page ──────────────────────────────────────────────────────────
 function LessonPage({ initial, topics, subjects, onSave, onClose }) {
   const [form, setForm] = useState(initial || emptyLesson);
   const [selectedSubject, setSelectedSubject] = useState(() => {
@@ -163,25 +152,22 @@ function LessonPage({ initial, topics, subjects, onSave, onClose }) {
     : topics;
 
   const submit = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     setSaving(true);
-    try {
-      await onSave(form);
-      onClose();
-    } catch { /* error shown by parent */ }
-    finally { setSaving(false); }
+    try { await onSave(form); onClose(); }
+    catch {} finally { setSaving(false); }
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-gray-50 flex flex-col">
+    <div className="fixed inset-0 z-50 bg-gray-50 dark:bg-gray-950 flex flex-col">
       {/* Top bar */}
-      <div className="bg-white border-b px-6 py-3 flex items-center justify-between shrink-0">
+      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-3 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-800 text-sm flex items-center gap-1">
+          <button onClick={onClose} className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-100 text-sm flex items-center gap-1">
             ← Back
           </button>
-          <span className="text-gray-300">|</span>
-          <h2 className="text-sm font-semibold text-gray-800">{initial ? 'Edit Lesson' : 'New Lesson'}</h2>
+          <span className="text-gray-300 dark:text-gray-600">|</span>
+          <h2 className="text-sm font-semibold text-gray-800 dark:text-gray-100">{initial ? 'Edit Lesson' : 'New Lesson'}</h2>
         </div>
         <button onClick={submit} disabled={saving}
           className="px-4 py-1.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50">
@@ -191,9 +177,9 @@ function LessonPage({ initial, topics, subjects, onSave, onClose }) {
 
       {/* Body */}
       <form onSubmit={submit} className="flex-1 overflow-y-auto">
-        <div className="max-w-5xl mx-auto px-6 py-8 space-y-6">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-6">
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Field label="Subject">
               <select className={inp} value={selectedSubject}
                 onChange={e => { setSelectedSubject(e.target.value); set('topic', ''); }}>
@@ -213,7 +199,7 @@ function LessonPage({ initial, topics, subjects, onSave, onClose }) {
             <input className={inp} value={form.title} onChange={e => set('title', e.target.value)} required />
           </Field>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Field label="Difficulty">
               <select className={inp} value={form.difficulty} onChange={e => set('difficulty', e.target.value)}>
                 <option>Easy</option><option>Medium</option><option>Hard</option>
@@ -234,7 +220,7 @@ function LessonPage({ initial, topics, subjects, onSave, onClose }) {
 
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="text-sm font-medium text-gray-700">Content (বাংলা) — optional</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Content (বাংলা) — optional</label>
               <button type="button" onClick={handleTranslate} disabled={translating}
                 className="px-3 py-1 bg-purple-600 text-white text-xs font-medium rounded-lg hover:bg-purple-700 disabled:opacity-50">
                 {translating ? '⏳ Translating...' : '✨ Translate to English'}
@@ -249,14 +235,14 @@ function LessonPage({ initial, topics, subjects, onSave, onClose }) {
   );
 }
 
-// ── Main Admin Page ───────────────────────────────────────────────────────────
 export default function AdminPage() {
   const [authed, setAuthed] = useState(!!localStorage.getItem('admin_token'));
   const [tab, setTab] = useState('Subjects');
   const [subjects, setSubjects] = useState([]);
   const [topics, setTopics] = useState([]);
   const [lessons, setLessons] = useState([]);
-  const [modal, setModal] = useState(null); // { type, item? }
+  const [modal, setModal] = useState(null);
+  const { dark, toggle } = useTheme();
 
   const load = async () => {
     const [s, t, l] = await Promise.all([adminGetSubjects(), adminGetTopics(), adminGetLessons()]);
@@ -271,7 +257,6 @@ export default function AdminPage() {
 
   const closeModal = () => setModal(null);
 
-  // ── CRUD handlers ──
   const saveSubject = async (form, item) => {
     try {
       if (item) await adminUpdateSubject(item.id, form);
@@ -315,24 +300,36 @@ export default function AdminPage() {
 
   const subjectName = (id) => subjects.find(s => s.id === +id)?.title || '—';
   const topicName   = (id) => topics.find(t => t.id === +id)?.title || '—';
+  const diffColor = {
+    Easy: 'text-green-600 dark:text-green-400',
+    Medium: 'text-yellow-600 dark:text-yellow-400',
+    Hard: 'text-red-600 dark:text-red-400'
+  };
 
-  const diffColor = { Easy: 'text-green-600', Medium: 'text-yellow-600', Hard: 'text-red-600' };
+  const thCls = "px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider";
+  const tdCls = "px-4 py-3 text-sm text-gray-700 dark:text-gray-300";
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       {/* Top bar */}
-      <div className="bg-white border-b px-6 py-3 flex items-center justify-between">
-        <h1 className="text-lg font-bold text-gray-800">Admin Panel</h1>
-        <button onClick={() => { localStorage.removeItem('admin_token'); setAuthed(false); }}
-          className="text-sm text-red-500 hover:underline">Logout</button>
+      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-3 flex items-center justify-between">
+        <h1 className="text-lg font-bold text-gray-800 dark:text-gray-100">Admin Panel</h1>
+        <div className="flex items-center gap-3">
+          <button onClick={toggle}
+            className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm">
+            {dark ? '☀️' : '🌙'}
+          </button>
+          <button onClick={() => { localStorage.removeItem('admin_token'); setAuthed(false); }}
+            className="text-sm text-red-500 hover:underline">Logout</button>
+        </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-6 py-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         {/* Tabs */}
         <div className="flex gap-2 mb-6">
           {TABS.map(t => (
             <button key={t} onClick={() => setTab(t)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${tab === t ? 'bg-blue-600 text-white' : 'bg-white border text-gray-600 hover:bg-gray-50'}`}>
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${tab === t ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`}>
               {t}
             </button>
           ))}
@@ -342,34 +339,36 @@ export default function AdminPage() {
         {tab === 'Subjects' && (
           <div>
             <div className="flex justify-between items-center mb-4">
-              <h2 className="font-semibold text-gray-700">Subjects ({subjects.length})</h2>
-              <button onClick={() => setModal({ type: 'subject' })} className={btn('bg-blue-600')}>+ New Subject</button>
+              <h2 className="font-semibold text-gray-700 dark:text-gray-300">Subjects ({subjects.length})</h2>
+              <button onClick={() => setModal({ type: 'subject' })} className={btn('bg-blue-600 hover:bg-blue-700')}>+ New Subject</button>
             </div>
-            <div className="bg-white rounded-xl border overflow-hidden">
+            <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50 text-gray-500 text-xs uppercase">
+                <thead className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                   <tr>
-                    <th className="px-4 py-3 text-left">Title</th>
-                    <th className="px-4 py-3 text-left">Slug</th>
-                    <th className="px-4 py-3 text-left">Icon</th>
-                    <th className="px-4 py-3 text-left">Description</th>
-                    <th className="px-4 py-3" />
+                    <th className={thCls}>Title</th>
+                    <th className={thCls}>Slug</th>
+                    <th className={thCls}>Icon</th>
+                    <th className={thCls}>Description</th>
+                    <th className={thCls} />
                   </tr>
                 </thead>
-                <tbody className="divide-y">
+                <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                   {subjects.map(s => (
-                    <tr key={s.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3 font-medium">{s.title}</td>
-                      <td className="px-4 py-3 text-gray-400">{s.slug}</td>
-                      <td className="px-4 py-3 text-gray-400">{s.icon}</td>
-                      <td className="px-4 py-3 text-gray-500 max-w-xs truncate">{s.description}</td>
-                      <td className="px-4 py-3 flex gap-2 justify-end">
-                        <button onClick={() => adminUpdateSubject(s.id, { ...s, is_published: !s.is_published }).then(load)}
-                          className={btn(s.is_published ? 'bg-green-500' : 'bg-gray-400')}>
-                          {s.is_published ? 'Published' : 'Draft'}
-                        </button>
-                        <button onClick={() => setModal({ type: 'subject', item: s })} className={btn('bg-yellow-500')}>Edit</button>
-                        <button onClick={() => del('subject', s.id)} className={btn('bg-red-500')}>Delete</button>
+                    <tr key={s.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                      <td className={`${tdCls} font-medium text-gray-900 dark:text-gray-100`}>{s.title}</td>
+                      <td className={`${tdCls} text-gray-400`}>{s.slug}</td>
+                      <td className={tdCls}>{s.icon}</td>
+                      <td className={`${tdCls} max-w-xs truncate`}>{s.description}</td>
+                      <td className="px-4 py-3">
+                        <div className="flex gap-2 justify-end flex-wrap">
+                          <button onClick={() => adminUpdateSubject(s.id, { ...s, is_published: !s.is_published }).then(load)}
+                            className={btn(s.is_published ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-400 hover:bg-gray-500')}>
+                            {s.is_published ? 'Published' : 'Draft'}
+                          </button>
+                          <button onClick={() => setModal({ type: 'subject', item: s })} className={btn('bg-yellow-500 hover:bg-yellow-600')}>Edit</button>
+                          <button onClick={() => del('subject', s.id)} className={btn('bg-red-500 hover:bg-red-600')}>Delete</button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -383,28 +382,30 @@ export default function AdminPage() {
         {tab === 'Topics' && (
           <div>
             <div className="flex justify-between items-center mb-4">
-              <h2 className="font-semibold text-gray-700">Topics ({topics.length})</h2>
-              <button onClick={() => setModal({ type: 'topic' })} className={btn('bg-blue-600')}>+ New Topic</button>
+              <h2 className="font-semibold text-gray-700 dark:text-gray-300">Topics ({topics.length})</h2>
+              <button onClick={() => setModal({ type: 'topic' })} className={btn('bg-blue-600 hover:bg-blue-700')}>+ New Topic</button>
             </div>
-            <div className="bg-white rounded-xl border overflow-hidden">
+            <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50 text-gray-500 text-xs uppercase">
+                <thead className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                   <tr>
-                    <th className="px-4 py-3 text-left">Title</th>
-                    <th className="px-4 py-3 text-left">Subject</th>
-                    <th className="px-4 py-3 text-left">Order</th>
-                    <th className="px-4 py-3" />
+                    <th className={thCls}>Title</th>
+                    <th className={thCls}>Subject</th>
+                    <th className={thCls}>Order</th>
+                    <th className={thCls} />
                   </tr>
                 </thead>
-                <tbody className="divide-y">
+                <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                   {topics.map(t => (
-                    <tr key={t.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3 font-medium">{t.title}</td>
-                      <td className="px-4 py-3 text-gray-500">{subjectName(t.subject)}</td>
-                      <td className="px-4 py-3 text-gray-400">{t.order}</td>
-                      <td className="px-4 py-3 flex gap-2 justify-end">
-                        <button onClick={() => setModal({ type: 'topic', item: t })} className={btn('bg-yellow-500')}>Edit</button>
-                        <button onClick={() => del('topic', t.id)} className={btn('bg-red-500')}>Delete</button>
+                    <tr key={t.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                      <td className={`${tdCls} font-medium text-gray-900 dark:text-gray-100`}>{t.title}</td>
+                      <td className={tdCls}>{subjectName(t.subject)}</td>
+                      <td className={tdCls}>{t.order}</td>
+                      <td className="px-4 py-3">
+                        <div className="flex gap-2 justify-end">
+                          <button onClick={() => setModal({ type: 'topic', item: t })} className={btn('bg-yellow-500 hover:bg-yellow-600')}>Edit</button>
+                          <button onClick={() => del('topic', t.id)} className={btn('bg-red-500 hover:bg-red-600')}>Delete</button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -418,30 +419,32 @@ export default function AdminPage() {
         {tab === 'Lessons' && (
           <div>
             <div className="flex justify-between items-center mb-4">
-              <h2 className="font-semibold text-gray-700">Lessons ({lessons.length})</h2>
-              <button onClick={() => setModal({ type: 'lesson' })} className={btn('bg-blue-600')}>+ New Lesson</button>
+              <h2 className="font-semibold text-gray-700 dark:text-gray-300">Lessons ({lessons.length})</h2>
+              <button onClick={() => setModal({ type: 'lesson' })} className={btn('bg-blue-600 hover:bg-blue-700')}>+ New Lesson</button>
             </div>
-            <div className="bg-white rounded-xl border overflow-hidden">
+            <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50 text-gray-500 text-xs uppercase">
+                <thead className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                   <tr>
-                    <th className="px-4 py-3 text-left">Title</th>
-                    <th className="px-4 py-3 text-left">Topic</th>
-                    <th className="px-4 py-3 text-left">Difficulty</th>
-                    <th className="px-4 py-3 text-left">Order</th>
-                    <th className="px-4 py-3" />
+                    <th className={thCls}>Title</th>
+                    <th className={thCls}>Topic</th>
+                    <th className={thCls}>Difficulty</th>
+                    <th className={thCls}>Order</th>
+                    <th className={thCls} />
                   </tr>
                 </thead>
-                <tbody className="divide-y">
+                <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                   {lessons.map(l => (
-                    <tr key={l.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3 font-medium">{l.title}</td>
-                      <td className="px-4 py-3 text-gray-500">{topicName(l.topic)}</td>
-                      <td className={`px-4 py-3 font-medium ${diffColor[l.difficulty]}`}>{l.difficulty}</td>
-                      <td className="px-4 py-3 text-gray-400">{l.order}</td>
-                      <td className="px-4 py-3 flex gap-2 justify-end">
-                        <button onClick={() => setModal({ type: 'lesson', item: l })} className={btn('bg-yellow-500')}>Edit</button>
-                        <button onClick={() => del('lesson', l.id)} className={btn('bg-red-500')}>Delete</button>
+                    <tr key={l.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                      <td className={`${tdCls} font-medium text-gray-900 dark:text-gray-100`}>{l.title}</td>
+                      <td className={tdCls}>{topicName(l.topic)}</td>
+                      <td className={`px-4 py-3 text-sm font-medium ${diffColor[l.difficulty]}`}>{l.difficulty}</td>
+                      <td className={tdCls}>{l.order}</td>
+                      <td className="px-4 py-3">
+                        <div className="flex gap-2 justify-end">
+                          <button onClick={() => setModal({ type: 'lesson', item: l })} className={btn('bg-yellow-500 hover:bg-yellow-600')}>Edit</button>
+                          <button onClick={() => del('lesson', l.id)} className={btn('bg-red-500 hover:bg-red-600')}>Delete</button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -452,7 +455,6 @@ export default function AdminPage() {
         )}
       </div>
 
-      {/* ── Modals ── */}
       {modal?.type === 'subject' && (
         <Modal title={modal.item ? 'Edit Subject' : 'New Subject'} onClose={closeModal}>
           <SubjectForm initial={modal.item} onSave={(form) => saveSubject(form, modal.item)} onClose={closeModal} />

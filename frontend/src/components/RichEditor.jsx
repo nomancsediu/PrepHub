@@ -13,12 +13,12 @@ const lowlight = createLowlight(common);
 
 const ToolBtn = ({ onClick, active, title, children }) => (
   <button type="button" onClick={onClick} title={title}
-    className={`px-2 py-1 rounded text-sm hover:bg-gray-200 transition-colors ${active ? 'bg-gray-300 font-bold' : ''}`}>
+    className={`px-2 py-1 rounded text-sm transition-colors text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 ${active ? 'bg-gray-300 dark:bg-gray-600 font-bold' : ''}`}>
     {children}
   </button>
 );
 
-const Divider = () => <div className="w-px h-5 bg-gray-300 mx-1" />;
+const Divider = () => <div className="w-px h-5 bg-gray-300 dark:bg-gray-600 mx-1" />;
 
 export default function RichEditor({ value, onChange }) {
   const [imageUrl, setImageUrl] = useState('');
@@ -71,11 +71,12 @@ export default function RichEditor({ value, onChange }) {
     editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
   };
 
+  const inputCls = "flex-1 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100";
+
   return (
-    <div className="border border-gray-300 rounded-lg overflow-hidden">
+    <div className="border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
       {/* Toolbar */}
-      <div className="bg-gray-50 border-b border-gray-200 px-2 py-1.5 flex flex-wrap items-center gap-0.5">
-        {/* Headings */}
+      <div className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600 px-2 py-1.5 flex flex-wrap items-center gap-0.5">
         <ToolBtn onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
           active={editor.isActive('heading', { level: 1 })} title="Heading 1">H1</ToolBtn>
         <ToolBtn onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
@@ -85,7 +86,6 @@ export default function RichEditor({ value, onChange }) {
 
         <Divider />
 
-        {/* Text formatting */}
         <ToolBtn onClick={() => editor.chain().focus().toggleBold().run()}
           active={editor.isActive('bold')} title="Bold"><b>B</b></ToolBtn>
         <ToolBtn onClick={() => editor.chain().focus().toggleItalic().run()}
@@ -97,7 +97,6 @@ export default function RichEditor({ value, onChange }) {
 
         <Divider />
 
-        {/* Alignment */}
         <ToolBtn onClick={() => editor.chain().focus().setTextAlign('left').run()}
           active={editor.isActive({ textAlign: 'left' })} title="Align Left">⬅</ToolBtn>
         <ToolBtn onClick={() => editor.chain().focus().setTextAlign('center').run()}
@@ -107,7 +106,6 @@ export default function RichEditor({ value, onChange }) {
 
         <Divider />
 
-        {/* Lists */}
         <ToolBtn onClick={() => editor.chain().focus().toggleBulletList().run()}
           active={editor.isActive('bulletList')} title="Bullet List">• List</ToolBtn>
         <ToolBtn onClick={() => editor.chain().focus().toggleOrderedList().run()}
@@ -115,7 +113,6 @@ export default function RichEditor({ value, onChange }) {
 
         <Divider />
 
-        {/* Blocks */}
         <ToolBtn onClick={() => editor.chain().focus().toggleBlockquote().run()}
           active={editor.isActive('blockquote')} title="Blockquote">" "</ToolBtn>
         <ToolBtn onClick={() => editor.chain().focus().toggleCodeBlock().run()}
@@ -124,7 +121,6 @@ export default function RichEditor({ value, onChange }) {
 
         <Divider />
 
-        {/* Table */}
         <ToolBtn onClick={insertTable} title="Insert Table">⊞ Table</ToolBtn>
         {editor.isActive('table') && <>
           <ToolBtn onClick={() => editor.chain().focus().addColumnAfter().run()} title="Add Column">+Col</ToolBtn>
@@ -134,10 +130,7 @@ export default function RichEditor({ value, onChange }) {
 
         <Divider />
 
-        {/* Image */}
         <ToolBtn onClick={() => setShowImageInput(v => !v)} title="Insert Image">🖼 Image</ToolBtn>
-
-        {/* Link */}
         <ToolBtn onClick={() => setShowLinkInput(v => !v)}
           active={editor.isActive('link')} title="Insert Link">🔗 Link</ToolBtn>
         {editor.isActive('link') &&
@@ -146,42 +139,37 @@ export default function RichEditor({ value, onChange }) {
 
         <Divider />
 
-        {/* Undo/Redo */}
         <ToolBtn onClick={() => editor.chain().focus().undo().run()} title="Undo">↩</ToolBtn>
         <ToolBtn onClick={() => editor.chain().focus().redo().run()} title="Redo">↪</ToolBtn>
       </div>
 
-      {/* Image URL input */}
       {showImageInput && (
-        <div className="flex gap-2 px-3 py-2 bg-blue-50 border-b border-gray-200">
-          <input className="flex-1 border border-gray-300 rounded px-2 py-1 text-sm"
-            placeholder="Image URL দাও..." value={imageUrl}
+        <div className="flex gap-2 px-3 py-2 bg-blue-50 dark:bg-blue-950 border-b border-gray-200 dark:border-gray-600">
+          <input className={inputCls} placeholder="Image URL দাও..." value={imageUrl}
             onChange={e => setImageUrl(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && addImage()} />
           <button type="button" onClick={addImage}
             className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">Add</button>
           <button type="button" onClick={() => setShowImageInput(false)}
-            className="px-3 py-1 bg-gray-300 text-sm rounded hover:bg-gray-400">Cancel</button>
+            className="px-3 py-1 bg-gray-300 dark:bg-gray-600 dark:text-gray-100 text-sm rounded hover:bg-gray-400">Cancel</button>
         </div>
       )}
 
-      {/* Link URL input */}
       {showLinkInput && (
-        <div className="flex gap-2 px-3 py-2 bg-blue-50 border-b border-gray-200">
-          <input className="flex-1 border border-gray-300 rounded px-2 py-1 text-sm"
-            placeholder="Link URL দাও..." value={linkUrl}
+        <div className="flex gap-2 px-3 py-2 bg-blue-50 dark:bg-blue-950 border-b border-gray-200 dark:border-gray-600">
+          <input className={inputCls} placeholder="Link URL দাও..." value={linkUrl}
             onChange={e => setLinkUrl(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && addLink()} />
           <button type="button" onClick={addLink}
             className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">Add</button>
           <button type="button" onClick={() => setShowLinkInput(false)}
-            className="px-3 py-1 bg-gray-300 text-sm rounded hover:bg-gray-400">Cancel</button>
+            className="px-3 py-1 bg-gray-300 dark:bg-gray-600 dark:text-gray-100 text-sm rounded hover:bg-gray-400">Cancel</button>
         </div>
       )}
 
       {/* Editor area */}
       <EditorContent editor={editor}
-        className="min-h-[500px] px-6 py-4 prose prose-gray max-w-none focus:outline-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:min-h-[500px]" />
+        className="min-h-[500px] px-6 py-4 prose prose-gray dark:prose-invert max-w-none bg-white dark:bg-gray-900 [&_.ProseMirror]:outline-none [&_.ProseMirror]:min-h-[500px] [&_.ProseMirror]:text-gray-900 [&_.ProseMirror_*]:dark:text-gray-100" />
     </div>
   );
 }
