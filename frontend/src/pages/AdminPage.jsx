@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Sun, Moon, LogOut, BookOpen } from 'lucide-react';
 import RichEditor from '../components/RichEditor';
 import { useTheme } from '../context/ThemeContext';
 import {
@@ -161,16 +162,17 @@ function LessonPage({ initial, topics, subjects, onSave, onClose }) {
   return (
     <div className="fixed inset-0 z-50 bg-gray-50 dark:bg-gray-950 flex flex-col">
       {/* Top bar */}
-      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-3 flex items-center justify-between shrink-0">
+      <div className="sticky top-0 z-40 bg-gray-900 border-b border-gray-700/60 shadow-lg px-6 h-14 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
-          <button onClick={onClose} className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-100 text-sm flex items-center gap-1">
-            ← Back
+          <button onClick={onClose} className="flex items-center gap-1.5 text-gray-400 hover:text-white text-sm transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            Back
           </button>
-          <span className="text-gray-300 dark:text-gray-600">|</span>
-          <h2 className="text-sm font-semibold text-gray-800 dark:text-gray-100">{initial ? 'Edit Lesson' : 'New Lesson'}</h2>
+          <span className="text-gray-600">|</span>
+          <h2 className="text-sm font-semibold text-white">{initial ? 'Edit Lesson' : 'New Lesson'}</h2>
         </div>
         <button onClick={submit} disabled={saving}
-          className="px-4 py-1.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50">
+          className="px-4 py-1.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors">
           {saving ? 'Saving...' : 'Save Lesson'}
         </button>
       </div>
@@ -312,15 +314,22 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       {/* Top bar */}
-      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-3 flex items-center justify-between">
-        <h1 className="text-lg font-bold text-gray-800 dark:text-gray-100">Admin Panel</h1>
-        <div className="flex items-center gap-3">
+      <div className="sticky top-0 z-40 bg-gray-900 border-b border-gray-700/60 shadow-lg px-6 h-14 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <BookOpen size={20} className="text-blue-400" />
+          <h1 className="text-base font-bold text-white tracking-tight">Admin Panel</h1>
+        </div>
+        <div className="flex items-center gap-2">
           <button onClick={toggle}
-            className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm">
-            {dark ? '☀️' : '🌙'}
+            className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
+            aria-label="Toggle theme">
+            {dark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
           <button onClick={() => { localStorage.removeItem('admin_token'); setAuthed(false); }}
-            className="text-sm text-red-500 hover:underline">Logout</button>
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-700 transition-colors">
+            <LogOut size={15} />
+            Logout
+          </button>
         </div>
       </div>
 
