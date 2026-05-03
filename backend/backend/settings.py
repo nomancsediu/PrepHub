@@ -142,12 +142,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 GROQ_API_KEY = os.environ.get('GROQ_API_KEY', '')
 
 # ─── CORS Settings ─────────────────────────────────────────────
-CORS_ALLOW_ALL_ORIGINS = os.environ.get('CORS_ALLOW_ALL_ORIGINS', 'False') == 'True'
-if not CORS_ALLOW_ALL_ORIGINS:
-    CORS_ALLOWED_ORIGINS = os.environ.get(
-        'CORS_ALLOWED_ORIGINS',
-        'http://localhost:5173,http://127.0.0.1:5173'
-    ).split(',')
+CORS_ALLOWED_ORIGINS = [
+    'https://prephub.abdnoman.com',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+]
 CORS_ALLOW_HEADERS = [
     "accept",
     "authorization",
